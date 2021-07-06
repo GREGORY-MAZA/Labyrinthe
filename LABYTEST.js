@@ -59,19 +59,19 @@ while (labyrinthe[Y][X] != END){
 
 function Scan(Y,X){
     //Si la case Y n'est pas tout en bas du tableau ET que la case du BAS est VIDE et pas Exploré        on peut vérifier plus bas  ( +1 dans POSSIBLE )
-    if (labyrinthe[Y][X] != labyrinthe.length-1 && labyrinthe[Y+1][X] == o) {
+    if (Y != labyrinthe.length-1 && labyrinthe[Y+1][X] == o) {
         possibility++
     }
     //Si la case X n'est pas la derniere du tableau ET que la case de DROITE est VIDE et pas Exploré     on peut vérifier à droite  ( +1 dans POSSIBLE )
-    if (labyrinthe[Y][X] != labyrinthe.length-1 && labyrinthe[Y][X+1] == o){
+    if (X != labyrinthe.length-1 && labyrinthe[Y][X+1] == o){
         possibility++
     }
     //Si la case Y n'est pas égale à 0 ET que la case du HAUT est VIDE et pas Exploré                    on peut vérifier en haut   ( +1 dans POSSIBLE )
-    if (labyrinthe[Y][X] != 0 && labyrinthe[Y-1][X] == o){
+    if (Y != 0 && labyrinthe[Y-1][X] == o){
         possibility++
     }
     //Si la case X n'est pas égale à 0 ET que la case à GAUCHE est VIDE et pas Exploré                   on peut vérifier à gauche  ( +1 dans POSSIBLE )
-    if (labyrinthe[Y][X] != 0 && labyrinthe[Y][X-1] == o){
+    if (X != 0 && labyrinthe[Y][X-1] == o){
         possibility++
     }
     // Si POSSIBLE est plus grand ou égale à 2 alors on stock les positions Y et X dans un nouveau tableau [CHECKPOINT] et on réinitialise POSSIBLE
