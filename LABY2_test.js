@@ -27,6 +27,7 @@ labyrinthe = [
 //--------------------------------START------------------------------------------
 
 while (labyrinthe[Y][X] != END){
+    console.log(labyrinthe[Y][X])
     console.table(labyrinthe)
     Scan(Y,X)
     exploration +=1
@@ -36,14 +37,22 @@ while (labyrinthe[Y][X] != END){
         Y = Y +1
         labyrinthe[Y][X] = exploration
         labyrinthe[Y-1][X] = way
-
+        //if (labyrinthe[Y+1][X] == END && labyrinthe[Y+1][X] != labyrinthe.length-1 ) {
+        //    labyrinthe[Y][X] = exploration
+        //    Y = Y +1
+        //}
     }
-    //Sinon si la case EST est VIDE -> go
+
+    //Sinon si X n'a pas la valeur de la longeur du tableau et que la case EST est VIDE -> go
     else if (X != labyrinthe.length && labyrinthe[Y][X+1] == o){
         checkpoint.push
         X = X +1
         labyrinthe[Y][X] = exploration
         labyrinthe[Y][X-1]= way
+        if (labyrinthe[Y][X+1] == END) {
+            labyrinthe[Y][X] = exploration
+            X = X +1
+        }
 
     }
     //Sinon si la case NORD est VIDE -> go
@@ -52,30 +61,75 @@ while (labyrinthe[Y][X] != END){
         Y = Y -1
         labyrinthe[Y][X] = exploration
         labyrinthe[Y+1][X]=way
+        if (labyrinthe[Y-1][X] == END) {
+            labyrinthe[Y][X] = exploration
+            Y = Y -1
+        }
 
     }
     //Sinon si la case de OUEST est VIDE -> go
-    else if (X != 0 && (labyrinthe[Y][X-1] == o || labyrinthe[Y][X-1] == END)) {
+    else if (X != 0 && (labyrinthe[Y][X-1] == o)) {
         checkpoint.push
         X = X - 1
-        if (labyrinthe[Y][X] != END) {
-            labyrinthe[Y][X] = way
+        labyrinthe[Y][X] = exploration
+        labyrinthe[Y][X+1]=way
+        if (labyrinthe[Y][X-1] == END) {
+            labyrinthe[Y][X] = exploration
+            X = X -1
         }
+
 
 
         //SINON on retourne sur les positions CHECKPOINT de Y et X afin de prendre l'autre chemin inéxploré
     } else {
         //let checkpointLength = checkpoint.length
-        Y = checkpoint[checkpoint.length-1][0]
-        X = checkpoint[checkpoint.length-1][1]
-        labyrinthe[Y][X] = exploration
+        if (Y == labyrinthe.length-1 && labyrinthe[Y-1][X] != wall){
+            Y = Y-1
+            labyrinthe[Y][X]=exploration
+            labyrinthe[Y+1][X]=way
+        }
+        else if (X == labyrinthe.length-1 && labyrinthe[Y][X-1] != wall){
+            X = X-1
+            labyrinthe[Y][X]=exploration
+            labyrinthe[Y][X-1]=way
+        }
+        else if (X == 0 && labyrinthe[Y][X+1] != wall){
+            X = X+1
+            labyrinthe[Y][X]=exploration
+            labyrinthe[Y][X+1]=way
+        }
+        else if (Y == 0 && labyrinthe[Y+1][X] != wall){
+            Y = Y+1
+            labyrinthe[Y][X]=exploration
+            labyrinthe[Y+1][X]=way
+        }else{
+            //checkpoint.pop()
+            labyrinthe[Y][X] = way
+            Y = checkpoint[checkpoint.length-1][0]
+            X = checkpoint[checkpoint.length-1][1]
+            labyrinthe[Y][X] = exploration
+        }
+
+        //Y = checkpoint[checkpoint.length-1][0]
+        //X = checkpoint[checkpoint.length-1][1]
+        //labyrinthe[Y][X] = exploration
+
+        //Y = checkpoint[checkpoint.length-1][0]
+        //X = checkpoint[checkpoint.length-1][1]
+        //labyrinthe[Y+1][X] = exploration
         //checkpoint.pop()
 
     }
     console.log(Y,X)
 }
-console.log(' ! ! ! ! ! ! ! ! ! ! ! ! CONGRATULATION ! ! ! ! ! ! ! ! ! ! ! ! ! !')
-console.log(' ! ! ! ! ! ! EXIT ON Y = ' + Y + ' AND X = '+ X + ' ! ! ! ! ! !')
+exploration++
+console.table(labyrinthe)
+labyrinthe[Y][X] = 'WIN'
+labyrinthe[Y][X+1] = way
+console.table(labyrinthe)
+console.log('       ! ! ! ! ! ! ! ! ! ! ! ! CONGRATULATION ! ! ! ! ! ! ! ! ! ! ! ! ! !')
+console.log('           ! ! ! ! ! ! EXIT ON Y = ' + Y + ' AND X = '+ X + ' ! ! ! ! ! !')
+console.log('             -------- You found with ' + exploration + ' tries -------' )
 
 //______________________ FONCTIONS ____________________
 
